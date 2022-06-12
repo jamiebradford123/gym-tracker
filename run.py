@@ -23,7 +23,23 @@ def get_lifts_data():
     print("Example: 10,20,30,40,50,60\n")
 
     data_str = input("Enter your data here: ")
-    print(f"The data provided is {data_str}")
+    
+    lifts_data = data_str.split(",") #this removes commas from string
+    validate_data(lifts_data)
 
+#validate data
+def validate_data(values):
+    """
+    Inside the try, converts all string values into integers. Raises error if string cannot be converted into integer
+    """
+    try:
+        if len(values) != 6:
+            raise ValueError(
+                f"Exactly 6 values required, you provided {len(values)}"
+            )
+    except ValueError as e:
+        print(f"Invalid data: {e}, please try again.\n")
+
+        
 
 get_lifts_data()
