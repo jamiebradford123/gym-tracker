@@ -1,5 +1,6 @@
 import gspread
 from google.oauth2.service_account import Credentials
+from pprint import pprint
 # Links google sheet and keeps data confidential
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -29,6 +30,7 @@ def get_lifts_data():
         validate_data(lifts_data)
 
         if validate_data(lifts_data):
+            print("Data is valid!")
             break
 
     return lifts_data
@@ -59,8 +61,29 @@ def update_lifts_worksheet(data):
     lifts_worksheet.append_row(data)
     print("Lifts worksheet updated successfully")
 
+def calculate_diff_data(lifts_row):
+    """ 
+    Compares the actual lifts with th target lift for each lift type.
+
+    The difference is calculated by the following calculation:
+    - lifts - target lift
+    - Positive number indicates that the person has lifted above target
+    - Negative number indicates they have lifted below their target
+    """
+    print("Calculating surplus data...\n")
+    target = SHEET.worksheet("target").get_all_values()
+    target_row = target[-1]
+    print(target_row)
 
 
-data = get_lifts_data()
-lifts_data = [int(num) for num in data]
-update_lifts_worksheet(lifts_data)
+def main():
+    """ 
+    Run all program functions
+    """
+    data = get_lifts_data()
+    lifts_data = [int(num) for num in data]
+    update_lifts_worksheet(lifts_data)
+    calculate_diff_data(lifts_data)
+
+print("Welcome to the Lifting Tracker!")
+main() 
