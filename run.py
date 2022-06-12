@@ -17,15 +17,19 @@ def get_lifts_data():
     """
     Get lifts figures input from the user.
     """
-    print("Please enter lifts data from your last gym session.")
-    print("Data should be entered in order of the following lifts: Bench Press, Squat, Deadlift, Pull ups, Press ups, Shoulder Press")
-    print("Data should be six numbers, separated by commas.")
-    print("Example: 10,20,30,40,50,60\n")
+    while True: #allows user to repeat entry until valid data is entered
+        print("Please enter lifts data from your last gym session.")
+        print("Data should be entered in order of the following lifts: Bench Press, Squat, Deadlift, Pull ups, Press ups, Shoulder Press")
+        print("Data should be six numbers, separated by commas.")
+        print("Example: 10,20,30,40,50,60\n")
 
-    data_str = input("Enter your data here: ")
+        data_str = input("Enter your data here: ")
     
-    lifts_data = data_str.split(",") #this removes commas from string
-    validate_data(lifts_data)
+        lifts_data = data_str.split(",") #this removes commas from string
+        validate_data(lifts_data)
+
+        if validate_data(lifts_data):
+            break
 
 #validate data
 def validate_data(values):
@@ -40,5 +44,8 @@ def validate_data(values):
             )
     except ValueError as e:
         print(f"Invalid data: {e}, please try again.\n")
+        return False
+
+    return True
 
 get_lifts_data()
