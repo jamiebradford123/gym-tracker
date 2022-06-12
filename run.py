@@ -1,6 +1,6 @@
 import gspread
 from google.oauth2.service_account import Credentials
-#Links google sheet and keeps data confidential
+# Links google sheet and keeps data confidential
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
     "https://www.googleapis.com/auth/drive.file",
@@ -31,6 +31,8 @@ def get_lifts_data():
         if validate_data(lifts_data):
             break
 
+    return lifts_data
+
 #validate data
 def validate_data(values):
     """
@@ -48,4 +50,17 @@ def validate_data(values):
 
     return True
 
-get_lifts_data()
+def update_lifts_worksheet(data):
+    """
+    Update lifts worksheet, add new row with the list data provided
+    """
+    print("Updating lifts worksheet...\n")
+    lifts_worksheet = SHEET.worksheet("lifts")
+    lifts_worksheet.append_row(data)
+    print("Lifts worksheet updated successfully")
+
+
+
+data = get_lifts_data()
+lifts_data = [int(num) for num in data]
+update_lifts_worksheet(lifts_data)
