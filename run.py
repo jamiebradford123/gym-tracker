@@ -33,13 +33,12 @@ def validate_data(values):
     Inside the try, converts all string values into integers. Raises error if string cannot be converted into integer
     """
     try:
+        [int(value) for value in values] #convert data from string to integer to do maths
         if len(values) != 6:
             raise ValueError(
                 f"Exactly 6 values required, you provided {len(values)}"
             )
     except ValueError as e:
         print(f"Invalid data: {e}, please try again.\n")
-
-        
 
 get_lifts_data()
