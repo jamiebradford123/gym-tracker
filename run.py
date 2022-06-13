@@ -80,6 +80,17 @@ def calculate_diff_data(lifts_row):
 
     return diff_data
 
+def get_last_5_entries_lifts():
+    """
+    Collects collumns of data drom the lifts worksheet, collecting the last 5 entries of each lift which will be used to calculate the target lift
+    """
+    columns = []
+    for ind in range(1,7):
+        column = lifts.col_values(ind)
+        columns.append(column[-5:])
+    
+    return columns
+
 def main():
     """ 
     Run all program functions
