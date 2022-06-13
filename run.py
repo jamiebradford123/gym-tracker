@@ -51,23 +51,15 @@ def validate_data(values):
 
     return True
 
-def update_lifts_worksheet(data):
+def update_worksheet(data, worksheet):
     """
-    Update lifts worksheet, add new row with the list data provided
+    Receives a list of integers to be inserted into a worksheet
+    Update the relevant worksheet with the data provided
     """
-    print("Updating lifts worksheet...\n")
-    lifts_worksheet = SHEET.worksheet("lifts")
-    lifts_worksheet.append_row(data)
-    print("Lifts worksheet updated successfully")
-
-def update_diff_worksheet(data):
-    """
-    Update diff worksheet, add new row with the list data provided
-    """
-    print("Updating diff worksheet...\n")
-    diff_worksheet = SHEET.worksheet("diff")
-    diff_worksheet.append_row(data)
-    print("Diff worksheet updated successfully")
+    print(f"Updating {worksheet} worksheet...\n")
+    worksheet_to_update = SHEET.worksheet(worksheet)
+    worksheet_to_update.append_row(data)
+    print(f"{worksheet} worksheet updated successfully\n")
 
 def calculate_diff_data(lifts_row):
     """ 
@@ -94,9 +86,9 @@ def main():
     """
     data = get_lifts_data()
     lifts_data = [int(num) for num in data]
-    update_lifts_worksheet(lifts_data)
+    update_worksheet(lifts_data, "lifts")
     new_diff_data = calculate_diff_data(lifts_data)
-    update_diff_worksheet(new_diff_data)
+    update_worksheet(new_diff_data,"diff")
 
 print("Welcome to the Lifting Tracker!")
 main() 
