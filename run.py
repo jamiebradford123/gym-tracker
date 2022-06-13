@@ -1,6 +1,5 @@
 import gspread
 from google.oauth2.service_account import Credentials
-from pprint import pprint
 
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -20,11 +19,12 @@ def get_lifts_data():
     """
     while True: 
         print("Please enter lifts data from your last gym session.")
-        print("Data should be entered in order of the following lifts: Bench Press, Squat, Deadlift, Pull ups, Press ups, Shoulder Press")
+        print("Data should be entered in order of the following lifts: Bench Press")
+        print("Squat, Deadlift, Pull ups, Press ups, Shoulder Press")
         print("Data should be six numbers, separated by commas.")
         print("Example: 10,20,30,40,50,60\n")
 
-        data_str = input("Enter your data here: ")
+        data_str = input("Enter your data here:\n")
     
         lifts_data = data_str.split(",") 
         validate_data(lifts_data)
@@ -37,7 +37,8 @@ def get_lifts_data():
 
 def validate_data(values):
     """
-    Inside the try, converts all string values into integers. Raises error if strings cannot be converted into integer
+    Inside the try, converts all string values into integers. Raises error if 
+    strings cannot be converted into integer
     """
     try:
         [int(value) for value in values]
@@ -82,7 +83,8 @@ def calculate_diff_data(lifts_row):
 
 def get_last_5_entries_lifts():
     """
-    Collects collumns of data drom the lifts worksheet, collecting the last 5 entries of each lift which will be used to calculate the target lift
+    Collects collumns of data drom the lifts worksheet, collecting the last 5 
+    entries of each lift which will be used to calculate the target lift
     """
     lifts = SHEET.worksheet("lifts")
     columns = []
