@@ -84,12 +84,28 @@ def get_last_5_entries_lifts():
     """
     Collects collumns of data drom the lifts worksheet, collecting the last 5 entries of each lift which will be used to calculate the target lift
     """
+    lifts = SHEET.worksheet("lifts")
     columns = []
     for ind in range(1,7):
         column = lifts.col_values(ind)
         columns.append(column[-5:])
     
     return columns
+
+def calculate_target_data(data):
+    """
+    Calculate the average lift for each lift type, and add 10%
+    """
+    print("Calculating target data...\n")
+    new_target_data = []
+
+    for column in data:
+        int_column = [int(num) for num in column]
+        average = sum(int_column) / len(int_column)
+        target_num = average *1.1
+        new_target_data.append(round(target_num))
+
+    return new_target_data
 
 def main():
     """ 
@@ -100,6 +116,9 @@ def main():
     update_worksheet(lifts_data, "lifts")
     new_diff_data = calculate_diff_data(lifts_data)
     update_worksheet(new_diff_data,"diff")
+    lifts_columns = get_last_5_entries_lifts()
+    target_data = calculate_target_data(lifts_columns)
+    update_worksheet((target_data), "target")
 
 print("Welcome to the Lifting Tracker!")
-main() 
+main()
