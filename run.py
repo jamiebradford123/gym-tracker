@@ -60,6 +60,15 @@ def update_lifts_worksheet(data):
     lifts_worksheet.append_row(data)
     print("Lifts worksheet updated successfully")
 
+def update_diff_worksheet(data):
+    """
+    Update diff worksheet, add new row with the list data provided
+    """
+    print("Updating diff worksheet...\n")
+    diff_worksheet = SHEET.worksheet("diff")
+    diff_worksheet.append_row(data)
+    print("Diff worksheet updated successfully")
+
 def calculate_diff_data(lifts_row):
     """ 
     Compares the actual lifts with th target lift for each lift type.
@@ -87,7 +96,7 @@ def main():
     lifts_data = [int(num) for num in data]
     update_lifts_worksheet(lifts_data)
     new_diff_data = calculate_diff_data(lifts_data)
-    print(new_diff_data)
+    update_diff_worksheet(new_diff_data)
 
 print("Welcome to the Lifting Tracker!")
 main() 
