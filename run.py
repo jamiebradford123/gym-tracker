@@ -17,16 +17,15 @@ def get_lifts_data():
     """
     Get lifts figures input from the user.
     """
-    while True: 
+    while True:
         print("Please enter lifts data from your last gym session.")
-        print("Data should be entered in order of the following lifts: Bench Press")
+        print("Data should be in order of the following lifts: Bench Press")
         print("Squat, Deadlift, Pull ups, Press ups, Shoulder Press")
         print("Data should be six numbers, separated by commas.")
         print("Example: 10,20,30,40,50,60\n")
 
         data_str = input("Enter your data here:\n")
-    
-        lifts_data = data_str.split(",") 
+        lifts_data = data_str.split(",")
         validate_data(lifts_data)
 
         if validate_data(lifts_data):
@@ -35,9 +34,10 @@ def get_lifts_data():
 
     return lifts_data
 
+
 def validate_data(values):
     """
-    Inside the try, converts all string values into integers. Raises error if 
+    Inside the try, converts all string values into integers. Raises error if
     strings cannot be converted into integer
     """
     try:
@@ -46,11 +46,12 @@ def validate_data(values):
             raise ValueError(
                 f"Exactly 6 values required, you provided {len(values)}"
             )
-    except ValueError as e:
-        print(f"Invalid data: {e}, please try again.\n")
+    except ValueError as value_error:
+        print(f"Invalid data: {value_error}, please try again.\n")
         return False
 
     return True
+
 
 def update_worksheet(data, worksheet):
     """
@@ -62,8 +63,9 @@ def update_worksheet(data, worksheet):
     worksheet_to_update.append_row(data)
     print(f"{worksheet} worksheet updated successfully\n")
 
+
 def calculate_diff_data(lifts_row):
-    """ 
+    """
     Compares the actual lifts with th target lift for each lift type.
     The difference is calculated by the following calculation:
     - lifts - target lift
@@ -81,18 +83,19 @@ def calculate_diff_data(lifts_row):
 
     return diff_data
 
+
 def get_last_5_entries_lifts():
     """
-    Collects collumns of data drom the lifts worksheet, collecting the last 5 
+    Collects collumns of data drom the lifts worksheet, collecting the last 5
     entries of each lift which will be used to calculate the target lift
     """
     lifts = SHEET.worksheet("lifts")
     columns = []
-    for ind in range(1,7):
+    for ind in range(1, 7):
         column = lifts.col_values(ind)
         columns.append(column[-5:])
-    
     return columns
+
 
 def calculate_target_data(data):
     """
@@ -104,23 +107,25 @@ def calculate_target_data(data):
     for column in data:
         int_column = [int(num) for num in column]
         average = sum(int_column) / len(int_column)
-        target_num = average *1.1
+        target_num = average * 1.1
         new_target_data.append(round(target_num))
 
     return new_target_data
 
+
 def main():
-    """ 
+    """
     Run all program functions
     """
     data = get_lifts_data()
     lifts_data = [int(num) for num in data]
     update_worksheet(lifts_data, "lifts")
     new_diff_data = calculate_diff_data(lifts_data)
-    update_worksheet(new_diff_data,"diff")
+    update_worksheet(new_diff_data, "diff")
     lifts_columns = get_last_5_entries_lifts()
     target_data = calculate_target_data(lifts_columns)
     update_worksheet((target_data), "target")
+
 
 print("Welcome to the Lifting Tracker!")
 main()
