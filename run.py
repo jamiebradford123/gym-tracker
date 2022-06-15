@@ -12,8 +12,6 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('gym_tracker')
 
-LIFTS = ["Bench Press", "Squat", "Deadlift", "Pull ups", "Press ups", "Shoulder Press"]
-
 
 def get_lifts_data():
     """
@@ -76,6 +74,7 @@ def calculate_diff_data(lifts_row):
     print("Calculating surplus data...\n")
     target = SHEET.worksheet("target").get_all_values()
     target_row = target[-1]
+    header_row = target[0]
 
     diff_data = []
     for target, lifts in zip(target_row, lifts_row):
@@ -83,7 +82,7 @@ def calculate_diff_data(lifts_row):
         diff_data.append(diff)
 
     print("Compared to your targets, you achieved the following: ")
-    diff_dict = {LIFTS[i]: diff_data[i] for i in range(len(LIFTS))} 
+    diff_dict = {header_row[i]: diff_data[i] for i in range(len(header_row))}
     print(diff_dict)
 
     return diff_data
@@ -107,16 +106,19 @@ def calculate_target_data(data):
     Calculate the average lift for each lift type, and add 10%
     """
     print("Calculating target data...\n")
+    target = SHEET.worksheet("target").get_all_values()
     new_target_data = []
-
+    header_row = target[0]
     for column in data:
         int_column = [int(num) for num in column]
         average = sum(int_column) / len(int_column)
         target_num = average * 1.1
         new_target_data.append(round(target_num))
-    
+
     print("Your target lifts for the next session are: ")
-    target_dict = {LIFTS[i]: new_target_data[i] for i in range(len(LIFTS))} 
+    target_dict = {
+        header_row[i]: new_target_data[i] for i in range(len(header_row))
+        }
     print(target_dict)
     return new_target_data
 
@@ -131,7 +133,7 @@ def main():
 
     new_diff_data = calculate_diff_data(lifts_data)
     update_worksheet(new_diff_data, "diff")
-    
+
     lifts_columns = get_last_5_entries_lifts()
     target_data = calculate_target_data(lifts_columns)
     update_worksheet((target_data), "target")
