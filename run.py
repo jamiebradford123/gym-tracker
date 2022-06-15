@@ -12,6 +12,8 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('gym_tracker')
 
+LIFTS = ["Bench Press", "Squat", "Deadlift", "Pull ups", "Press ups", "Shoulder Press"]
+
 
 def get_lifts_data():
     """
@@ -81,7 +83,8 @@ def calculate_diff_data(lifts_row):
         diff_data.append(diff)
 
     print("Compared to your targets, you achieved the following: ")
-    print(diff_data)
+    diff_dict = {LIFTS[i]: diff_data[i] for i in range(len(LIFTS))} 
+    print(diff_dict)
 
     return diff_data
 
@@ -113,7 +116,8 @@ def calculate_target_data(data):
         new_target_data.append(round(target_num))
     
     print("Your target lifts for the next session are: ")
-    print(new_target_data)
+    target_dict = {LIFTS[i]: new_target_data[i] for i in range(len(LIFTS))} 
+    print(target_dict)
     return new_target_data
 
 
