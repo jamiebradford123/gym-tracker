@@ -18,9 +18,9 @@ def get_lifts_data():
     Get lifts figures input from the user.
     """
     while True:
-        print("Please enter lifts data from your last gym session.")
+        print("Please enter lifts data from your last gym session.\n")
         print("Data should be in order of the following lifts: Bench Press")
-        print("Squat, Deadlift, Pull ups, Press ups, Shoulder Press")
+        print("Squat, Deadlift, Pull ups, Press ups, Shoulder Press\n")
         print("Data should be six numbers, separated by commas.")
         print("Example: 10,20,30,40,50,60\n")
 
@@ -80,6 +80,9 @@ def calculate_diff_data(lifts_row):
         diff = lifts - int(target)
         diff_data.append(diff)
 
+    print("Compared to your targets, you achieved the following: ")
+    print(diff_data)
+
     return diff_data
 
 
@@ -108,7 +111,9 @@ def calculate_target_data(data):
         average = sum(int_column) / len(int_column)
         target_num = average * 1.1
         new_target_data.append(round(target_num))
-
+    
+    print("Your target lifts for the next session are: ")
+    print(new_target_data)
     return new_target_data
 
 
@@ -119,8 +124,10 @@ def main():
     data = get_lifts_data()
     lifts_data = [int(num) for num in data]
     update_worksheet(lifts_data, "lifts")
+
     new_diff_data = calculate_diff_data(lifts_data)
     update_worksheet(new_diff_data, "diff")
+    
     lifts_columns = get_last_5_entries_lifts()
     target_data = calculate_target_data(lifts_columns)
     update_worksheet((target_data), "target")
