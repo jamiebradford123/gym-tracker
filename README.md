@@ -51,4 +51,7 @@ This site was deployed onto Heroku.
 - The main structure of this code and the functionality was taken from the "Love Sandwiches" project from the Code Institute. 
 
 
+- HOW TO RUN LOCALLY ADD HERE- CREDS.JSON
+- 
+
 
